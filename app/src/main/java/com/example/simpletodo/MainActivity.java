@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -54,6 +55,12 @@ public class MainActivity extends AppCompatActivity {
                 itemsAdapter.notifyItemRemoved(position);
                 Toast.makeText(getApplicationContext(), "Item was removed", Toast.LENGTH_SHORT).show();
                 saveItems();
+                try {
+                    InputMethodManager methodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    methodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    Log.e("MainActivity", "Error hiding keyboard", e);
+                }
             }
         };
         ItemsAdapter.OnClickListener onClickListener = new ItemsAdapter.OnClickListener() {
@@ -68,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 // Display the activity
                 startActivityForResult(i, EDIT_TEXT_CODE);
             }
+
         };
 
         itemsAdapter = new ItemsAdapter(items, onLongClickListener, onClickListener);
@@ -86,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
                 etItem.setText("");
                 Toast.makeText(getApplicationContext(), "Item was added", Toast.LENGTH_SHORT).show();
                 saveItems();
+                try {
+                    InputMethodManager methodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    methodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    Log.e("MainActivity", "Error hiding keyboard", e);
+                }
             }
         });
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -40,6 +41,12 @@ public class EditActivity extends AppCompatActivity {
 
                 // Finish activity, close the screen and go back
                 finish();
+                try {
+                    InputMethodManager methodManager = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    methodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                } catch (Exception e) {
+                    Log.e("EditActivity", "Error hiding keyboard", e);
+                }
             }
         });
     }
